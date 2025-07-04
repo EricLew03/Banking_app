@@ -21,8 +21,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { email } from 'zod/v4-mini'
 
-import { Control } from 'react-hook-form'
-import { z } from 'zod'
+
 import { authformSchema } from '@/lib/utils'
 
 const formSchema = authformSchema('sign-up')
