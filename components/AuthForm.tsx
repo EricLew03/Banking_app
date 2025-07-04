@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
 
+
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -22,19 +23,19 @@ import { Input } from "@/components/ui/input"
 import { email } from 'zod/v4-mini'
 import CustomInput from './CustomInput'
 import { authformSchema } from '@/lib/utils'
-import { Loader2 } from 'lucide-react'
+import { AArrowUp, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { signIn, signUp } from '@/lib/actions/user.actions'
+import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions'
 
 
 
 const AuthForm = ({type}: {type:string}) => {
 
-    const router = useRouter
+    const router = useRouter();
 
     const [user, setUser] = useState(null);
     const [isloading, setIsloading] = useState(false);
-
+    
     const formSchema = authformSchema(type);
 
       // 1. Define your form.
@@ -62,9 +63,9 @@ const AuthForm = ({type}: {type:string}) => {
         
 
         if (type ==='sign-in') {
-            const response = await signIn({email: data.email, password: data.password})
+            const response = await signIn({email: data.email, password: data.password});
 
-            if (response) router.push('/')
+            if (response) router.push('/');
         }
     
         
@@ -181,7 +182,7 @@ const AuthForm = ({type}: {type:string}) => {
     <p className='text-14 font-normal text-gray-600'>
         {type ==='sign-in'
         ?"Don't have an account?"
-        : "Already have an account? Sign up"}
+        : "Already have an account?"}
     </p>
 
     <Link href = {type  === 'sign-in' ? '/sign-up'
