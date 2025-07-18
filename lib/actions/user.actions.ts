@@ -13,12 +13,12 @@ export const signIn = async ({ email, password }: signInProps) => {
 
     const session = await account.createEmailPasswordSession(email, password);
 
-    // (await cookies()).set("appwrite-session", session.secret, {
-    //   path: "/",
-    //   httpOnly: true,
-    //   sameSite: "strict",
-    //   secure: true,
-    // });
+    (await cookies()).set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+    });
 
     // const user = await getUserInfo({ userId: session.userId }) 
 
@@ -46,7 +46,6 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
     const session = await account.createEmailPasswordSession(email, password);
 
-    // ✅ Set session ID, not secret
     (await cookies()).set("appwrite-session", session.secret ,{
       path: "/",
       httpOnly: true,
