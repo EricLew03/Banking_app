@@ -1,12 +1,13 @@
 import React from 'react'
-import { HeaderBox } from '@/components/HeaderBox'
-import { TotalBalanceBox } from '@/components/TotalBalanceBox';
+import  HeaderBox  from '@/components/HeaderBox'
+import  TotalBalanceBox  from '@/components/TotalBalanceBox';
 import RightSideBar from '@/components/RightSideBar';
 import BankCard from '@/components/BankCard';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
 
 import { headers } from 'next/headers';
+import RecentTransactions from '@/components/RecentTransactions';
 
 
 const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
@@ -16,8 +17,6 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
     userId: loggedIn.$id 
   })
     if(!accounts) return;
-
-    console.log({loggedIn})
   
   const accountsData = accounts?.data;
   const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId;
@@ -26,7 +25,6 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
 
 
 
-  
    return (
     <section className="home">
       <div className="home-content">
@@ -45,7 +43,13 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
           />
         </header>
 
-        RECENT TRASACTIONS
+        
+        <RecentTransactions 
+          accounts={accountsData}
+          transactions={account?.transactions}
+          appwriteItemId={appwriteItemId}
+          page={currentPage}
+        />
       </div>
 
   <RightSideBar 

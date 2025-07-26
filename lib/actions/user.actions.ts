@@ -143,7 +143,7 @@ export const createLinkToken = async (user: User) => {
         client_user_id: user.$id
       },
       client_name: `${user.firstName} ${user.lastName}`,
-      products: ['auth'] as Products[],
+      products: ['auth','transactions'] as Products[],
       language: 'en',
       country_codes: ['US'] as CountryCode[],
     }
@@ -162,7 +162,7 @@ export const createBankAccount = async ({
   accountId,
   accessToken,
   fundingSourceUrl,
-  shareableId,
+  sharableId,
 }: createBankAccountProps) => {
   try {
     const { database } = await createAdminClient();
@@ -179,7 +179,7 @@ export const createBankAccount = async ({
         accountId,
         accessToken,
         fundingSourceUrl,
-        shareableId,
+        sharableId,
       }
     )
     console.log("✅ Bank account created:", bankAccount);
@@ -252,7 +252,7 @@ export const exchangePublicToken = async ({
       accountId: accountData.account_id,
       accessToken,
       fundingSourceUrl,
-      shareableId: encryptId(accountData.account_id),
+      sharableId: encryptId(accountData.account_id),
     });
     console.log("✅ Bank account created:", bank);
 
@@ -303,21 +303,21 @@ export const getBank = async ({ documentId }: getBankProps) => {
   }
 }
 
-// export const getBankByAccountId = async ({ accountId }: getBankByAccountIdProps) => {
-//   try {
-//     const { database } = await createAdminClient();
+export const getBankByAccountId = async ({ accountId }: getBankByAccountIdProps) => {
+  try {
+    const { database } = await createAdminClient();
 
-//     const bank = await database.listDocuments(
-//       DATABASE_ID!,
-//       BANK_COLLECTION_ID!,
-//       [Query.equal('accountId', [accountId])]
-//     )
+    const bank = await database.listDocuments(
+      DATABASE_ID!,
+      BANK_COLLECTION_ID!,
+      [Query.equal('accountId', [accountId])]
+    )
 
-//     if(bank.total !== 1) return null;
+    if(bank.total !== 1) return null;
 
-//     return parseStringify(bank.documents[0]);
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
+    return parseStringify(bank.documents[0]);
+  } catch (error) {
+    console.log(error)
+  }
+}
 
